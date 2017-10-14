@@ -16,7 +16,13 @@ have different anagrams.
 
 ## Authors 
 
-Initial version by M Young; to be revised by CIS 322 students. 
+Initial version by M Young; to be revised by #Jenny Lee# from CIS322 course. 
+
+
+## specification
+
+Revised by Jenny Lee has made the project to correct the answer three in the row.
+
 
 ## Known bugs
 
