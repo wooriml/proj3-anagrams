@@ -80,14 +80,13 @@
 <br />
 <div class="row">
   <div class="col-xs-6 text-center">
-  <form id="entry" method="POST" action="/_check">
+  <form id="entry" name="entry" method="POST" action="/_check"> 
     <label for="attempt">Word:</label>
     <input id="attempt" name="attempt" type="text" width="15"
       autocomplete="off"  autofocus />
-    <input type="submit" name="try" />
   </form>
+  <span id="a"></span>
 </div></div>
-
 <br />
 
 {% if session.matches|length is not equalto 0  %}
@@ -108,6 +107,43 @@
     {% endfor %}
   {% endif %}
 {% endwith %}
+
+<script>
+  /*
+$("#entry").submit(function(event) {
+  event.preventDefault();
+});
+
+//$("#entry").post('/_check')
+*/
+$("#attempt").keyup(function(event){
+  var txt = $("#attempt").val();
+  var keycode = event.which;
+  var letter = String.fromCharCode(keycode);
+
+
+  if (! "ABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(letter)) { return }
+  $(document).ready(function() {
+    $.getJSON( "/keep_going", {text: txt}, function(data) {//txt: written on input 
+    rsval = data.result.legal;
+    txt = data.result.text;
+    
+    console.log("rsval: " + rsval);
+    if (rsval) {
+      $.post("/_check", {"attempt": txt}, function(data) {
+        $('#a').html("You got "+ data.mat_li +" \n");
+        $("#attempt").val("");
+      });
+    }
+    });
+  });
+});
+
+
+
+</script>
+
+
 
 
 

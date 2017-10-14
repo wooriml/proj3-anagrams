@@ -57,9 +57,16 @@ def keep_going():
     """
     After initial use of index, we keep the same scrambled
     word and try to get more matches
-    """
     flask.g.vocab = WORDS.as_list()
+    
     return flask.render_template('vocab.html')
+
+    """
+    
+    flask.g.vocab = WORDS.as_list() ##flask.g.vocab is the list of words 
+    text = flask.request.args.get("text", type=str)
+    rslt = {"legal" : text in flask.g.vocab, "text": text}
+    return flask.jsonify(result=rslt)
 
 
 @app.route("/success")
@@ -85,12 +92,11 @@ def check():
     already found.
     """
     app.logger.debug("Entering check")
-
     # The data we need, from form and from cookie
     text = flask.request.form["attempt"]
     jumble = flask.session["jumble"]
-    matches = flask.session.get("matches", [])  # Default to empty list
-
+    print(jumble)
+    matches = flask.session.get("matches", [])
     # Is it good?
     in_jumble = LetterBag(jumble).contains(text)
     matched = WORDS.has(text)
@@ -100,6 +106,8 @@ def check():
         # Cool, they found a new word
         matches.append(text)
         flask.session["matches"] = matches
+        #flask.flash("You found {}".format(text))
+        return flask.jsonify(mat_li=matches)
     elif text in matches:
         flask.flash("You already found {}".format(text))
     elif not matched:
@@ -114,9 +122,10 @@ def check():
     # Choose page:  Solved enough, or keep going?
     if len(matches) >= flask.session["target_count"]:
        return flask.redirect(flask.url_for("success"))
+    
     else:
-       return flask.redirect(flask.url_for("keep_going"))
-
+       return flask.redirect(flask.url_for("index"))
+    
 ###############
 # AJAX request handlers
 #   These return JSON, rather than rendering pages.

@@ -33,6 +33,7 @@ def index():
 @app.route("/_countem")
 def countem():
     text = flask.request.args.get("text", type=str)
+    print(text)
     length = len(text)
     rslt = {"long_enough": length >= 5}
     return flask.jsonify(result=rslt)
@@ -47,3 +48,28 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.DEBUG)
     app.logger.info("Opening for global access on port {}".format(CONFIG.PORT))
     app.run(port=CONFIG.PORT, host="0.0.0.0")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

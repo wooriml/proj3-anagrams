@@ -10,6 +10,17 @@
  * like text color, italics, etc. 
  */
 
+
+body {
+	background: #EEE; 
+	color: #444;
+	font: normal 120% "Lucida Sans Unicode",sans-serif;
+	margin: 0;
+}
+p.highlight{
+	background-color: rgb(255, 255,0);
+}
+
 .message { 
     color: red;
 }
